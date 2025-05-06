@@ -1,0 +1,9 @@
+{
+	"name": "CodesavyADF",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ed45d4cf-636b-45e7-9aac-3c51deec7d40",
+		"tenantId": "e0803d05-a317-4719-a171-2757d151fa42"
+	}
+}
