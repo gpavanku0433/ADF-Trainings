@@ -1,0 +1,10 @@
+{
+	"name": "KV_Blob",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KV-DEV-SQLADF.vault.azure.net/"
+		}
+	}
+}
