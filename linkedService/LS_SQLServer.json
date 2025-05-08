@@ -1,0 +1,18 @@
+{
+	"name": "LS_SQLServer",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "sqladftraining2.database.windows.net",
+			"database": "SQLADFTraining",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SystemAssignedManagedIdentity"
+		},
+		"connectVia": {
+			"referenceName": "AzureIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
