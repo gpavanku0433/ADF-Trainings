@@ -7,6 +7,15 @@
 		},
 		"LS_Blobstorage_connectionString": {
 			"value": ""
+		},
+		"KV_Blob_properties_typeProperties_baseUrl": {
+			"value": "https://KV-DEV-SQLADF.vault.azure.net/"
+		},
+		"LS_SQLServer_properties_typeProperties_server": {
+			"value": "sqladftraining2.database.windows.net"
+		},
+		"LS_SQLServer_properties_typeProperties_database": {
+			"value": "SQLADFTraining"
 		}
 	}
 }
