@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy source to destination using wildcards",
+				"name": "Copy source to destination",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
