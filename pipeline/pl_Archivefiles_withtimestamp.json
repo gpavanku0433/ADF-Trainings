@@ -54,7 +54,14 @@
 						{
 							"name": "Source to destination",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Starttime",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -290,7 +297,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Archive",
+									"activity": "End Time",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -349,6 +356,47 @@
 								"referenceName": "LS_SQLServer",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "Starttime",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Starttime",
+								"value": {
+									"value": "@{concat(utcNow())}",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "End Time",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Archive",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "End Time",
+								"value": {
+									"value": "@{concat(utcNow())}",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -359,6 +407,12 @@
 				"type": "String"
 			},
 			"Extension": {
+				"type": "String"
+			},
+			"Starttime": {
+				"type": "String"
+			},
+			"End Time": {
 				"type": "String"
 			}
 		},
