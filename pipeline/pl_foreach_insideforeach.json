@@ -32,7 +32,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Loop",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -81,6 +81,39 @@
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
+								}
+							}
+						},
+						{
+							"name": "3rd stage",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "2nd stage",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pl_getsubdirectory",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Subdirectory": {
+										"value": "@activity('2nd stage').output.childItems",
+										"type": "Expression"
+									},
+									"Directory": {
+										"value": "@item().name",
+										"type": "Expression"
+									}
 								}
 							}
 						}
