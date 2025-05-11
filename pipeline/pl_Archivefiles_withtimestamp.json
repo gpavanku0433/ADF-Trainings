@@ -312,8 +312,29 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "dbo.usp_auditlog",
+								"storedProcedureName": "[HRP].[usp_auditlog]",
 								"storedProcedureParameters": {
+									"Datafactory": {
+										"value": {
+											"value": "@pipeline().DataFactory",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"endtime": {
+										"value": {
+											"value": "@variables('End Time')",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"Filesdeleted": {
+										"value": {
+											"value": "@item().name",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
 									"Pipelinename": {
 										"value": {
 											"value": "@pipeline().Pipeline",
@@ -328,33 +349,12 @@
 										},
 										"type": "String"
 									},
-									"Filesdeleted": {
-										"value": {
-											"value": "@item().name",
-											"type": "Expression"
-										},
-										"type": "String"
-									},
 									"starttime": {
 										"value": {
 											"value": "@variables('Starttime')",
 											"type": "Expression"
 										},
-										"type": "String"
-									},
-									"endtime": {
-										"value": {
-											"value": "@variables('End Time')",
-											"type": "Expression"
-										},
-										"type": "String"
-									},
-									"Datafactory": {
-										"value": {
-											"value": "@pipeline().DataFactory",
-											"type": "Expression"
-										},
-										"type": "String"
+										"type": "DateTime"
 									}
 								}
 							},
