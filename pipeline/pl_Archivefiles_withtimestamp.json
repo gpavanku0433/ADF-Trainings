@@ -112,11 +112,144 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "Archive",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Extension of the file",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_Source_Getmetadata",
+									"type": "DatasetReference",
+									"parameters": {
+										"Filename": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_Source_to_Archive_Blob",
+									"type": "DatasetReference",
+									"parameters": {
+										"Archivefilename": {
+											"value": "@{concat(variables('FirstValue'),'_',utcNow(),'.',variables('Extension'))}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "First Name",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Source to destination",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FirstValue",
+								"value": {
+									"value": "@first(split(item().name,'.'))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Extension of the file",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "First Name",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Extension",
+								"value": {
+									"value": "@last(split(item().name,'.'))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"FirstValue": {
+				"type": "String"
+			},
+			"Extension": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
