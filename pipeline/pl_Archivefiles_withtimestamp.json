@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -304,8 +305,30 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"storedProcedureName": "HRP.usp_auditlog",
 								"storedProcedureParameters": {
 									"@Pipelinename": {
+										"value": {
+											"value": "@pipeline().Pipeline",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"@Pipelinerunid": {
+										"value": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"@Filesdeleted": {
+										"value": {
+											"value": "@item().name",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"undefined": {
 										"value": ""
 									}
 								}
