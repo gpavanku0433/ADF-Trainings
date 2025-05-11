@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get Metadata1",
+				"name": "1st Stage",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -18,6 +18,48 @@
 					"dataset": {
 						"referenceName": "DS_Getmetadata_Source",
 						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "2nd stage",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "1st Stage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_Source_Getmetadata_2ndstage",
+						"type": "DatasetReference",
+						"parameters": {
+							"Directoryname": {
+								"value": "@activity('1st Stage').output.childItems",
+								"type": "Expression"
+							}
+						}
 					},
 					"fieldList": [
 						"childItems"
