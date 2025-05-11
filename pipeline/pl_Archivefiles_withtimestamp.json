@@ -328,8 +328,20 @@
 										},
 										"type": "String"
 									},
-									"undefined": {
-										"value": ""
+									"@starttime": {
+										"value": "",
+										"type": "String"
+									},
+									"@endtime": {
+										"value": "",
+										"type": "String"
+									},
+									"@Datafactory": {
+										"value": {
+											"value": "@pipeline().DataFactory",
+											"type": "Expression"
+										},
+										"type": "String"
 									}
 								}
 							},
