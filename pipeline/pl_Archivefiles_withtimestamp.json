@@ -48,6 +48,7 @@
 						"value": "@activity('Get Metadata').output.childItems",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Source to destination",
