@@ -326,7 +326,7 @@
 											"value": "@variables('End Time')",
 											"type": "Expression"
 										},
-										"type": "String"
+										"type": "Datetime"
 									},
 									"Filesdeleted": {
 										"value": {
@@ -354,7 +354,7 @@
 											"value": "@variables('Starttime')",
 											"type": "Expression"
 										},
-										"type": "String"
+										"type": "Datetime"
 									}
 								}
 							},
