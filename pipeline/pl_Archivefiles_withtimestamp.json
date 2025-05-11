@@ -314,42 +314,42 @@
 							"typeProperties": {
 								"storedProcedureName": "HRP.usp_auditlog",
 								"storedProcedureParameters": {
-									"@Pipelinename": {
+									"Pipelinename": {
 										"value": {
 											"value": "@pipeline().Pipeline",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"@Pipelinerunid": {
+									"Pipelinerunid": {
 										"value": {
 											"value": "@pipeline().RunId",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"@Filesdeleted": {
+									"Filesdeleted": {
 										"value": {
 											"value": "@item().name",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"@starttime": {
+									"starttime": {
 										"value": {
 											"value": "@variables('Starttime')",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"@endtime": {
+									"endtime": {
 										"value": {
 											"value": "@variables('End Time')",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"@Datafactory": {
+									"Datafactory": {
 										"value": {
 											"value": "@pipeline().DataFactory",
 											"type": "Expression"
