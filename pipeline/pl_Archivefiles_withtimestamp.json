@@ -336,11 +336,17 @@
 										"type": "String"
 									},
 									"@starttime": {
-										"value": "",
+										"value": {
+											"value": "@variables('Starttime')",
+											"type": "Expression"
+										},
 										"type": "String"
 									},
 									"@endtime": {
-										"value": "",
+										"value": {
+											"value": "@variables('End Time')",
+											"type": "Expression"
+										},
 										"type": "String"
 									},
 									"@Datafactory": {
