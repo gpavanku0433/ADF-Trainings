@@ -312,7 +312,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "HRP.usp_auditlog",
+								"storedProcedureName": "dbo.usp_auditlog",
 								"storedProcedureParameters": {
 									"Pipelinename": {
 										"value": {
