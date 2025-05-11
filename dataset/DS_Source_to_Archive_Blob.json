@@ -5,6 +5,11 @@
 			"referenceName": "LS_Blobstorage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Archivefilename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
