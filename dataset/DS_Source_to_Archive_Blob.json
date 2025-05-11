@@ -19,6 +19,10 @@
 					"value": "@dataset().Archivefilename",
 					"type": "Expression"
 				},
+				"folderPath": {
+					"value": "@concat(formatDateTime(utcnow(),'yyyyMMdd'))",
+					"type": "Expression"
+				},
 				"container": "archive"
 			},
 			"columnDelimiter": ",",
