@@ -354,7 +354,7 @@
 											"value": "@variables('Starttime')",
 											"type": "Expression"
 										},
-										"type": "DateTime"
+										"type": "String"
 									}
 								}
 							},
