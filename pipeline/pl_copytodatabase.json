@@ -48,6 +48,7 @@
 						"value": "@activity('Get Folder Names from source blob').output.childItems",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Get Files from sourcefiles",
@@ -73,7 +74,8 @@
 									}
 								},
 								"fieldList": [
-									"childItems"
+									"childItems",
+									"exists"
 								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
@@ -112,6 +114,10 @@
 									},
 									"filenames": {
 										"value": "@activity('Get Files from sourcefiles').output.childItems",
+										"type": "Expression"
+									},
+									"fileexist": {
+										"value": "@activity('Get Files from sourcefiles').output.exists",
 										"type": "Expression"
 									}
 								}
