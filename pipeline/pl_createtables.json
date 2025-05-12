@@ -97,6 +97,9 @@
 			},
 			"filenames": {
 				"type": "array"
+			},
+			"fileexist": {
+				"type": "string"
 			}
 		},
 		"annotations": []
