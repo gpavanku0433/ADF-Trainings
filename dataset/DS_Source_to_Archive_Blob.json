@@ -5,20 +5,11 @@
 			"referenceName": "LS_Blobstorage",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"Archivefilename": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().Archivefilename",
-					"type": "Expression"
-				},
 				"folderPath": {
 					"value": "@concat(formatDateTime(utcnow(),'yyyyMMdd'))",
 					"type": "Expression"
