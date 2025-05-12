@@ -103,6 +103,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Copy from Blob"
+		},
 		"annotations": []
 	}
 }

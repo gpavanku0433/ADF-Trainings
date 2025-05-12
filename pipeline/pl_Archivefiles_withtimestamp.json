@@ -422,6 +422,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "Copy from Blob"
+		},
 		"annotations": []
 	}
 }
