@@ -113,7 +113,7 @@
 				"type": "array"
 			},
 			"fileexist": {
-				"type": "string"
+				"type": "bool"
 			}
 		},
 		"annotations": []
