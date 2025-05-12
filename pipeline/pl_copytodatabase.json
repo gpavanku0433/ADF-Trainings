@@ -54,7 +54,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Get Metadata1",
+									"activity": "Get Files from sourcefiles",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -127,7 +127,7 @@
 							]
 						},
 						{
-							"name": "Get Metadata1",
+							"name": "Get Files from sourcefiles",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -137,7 +137,27 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_Getmetdata_fileinfo",
+									"type": "DatasetReference",
+									"parameters": {
+										"Directoryname": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
 						}
 					]
 				}
