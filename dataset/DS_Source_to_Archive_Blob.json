@@ -1,16 +1,29 @@
 {
-	"name": "DS_Copy_Destination",
+	"name": "DS_Source_to_Archive_Blob",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blobstorage",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Archivefilename": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "destination"
+				"fileName": {
+					"value": "@dataset().Archivefilename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(formatDateTime(utcnow(),'yyyyMMdd'))",
+					"type": "Expression"
+				},
+				"container": "archive"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -1,5 +1,5 @@
 {
-	"name": "DS_Copy_Destination",
+	"name": "DS_Source_WildCard",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blobstorage",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "destination"
+				"container": "source"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
