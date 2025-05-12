@@ -20,7 +20,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(pipeline().parameters.fileexist,'true')",
+									"value": "@pipeline().parameters.fileexist",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
