@@ -22,6 +22,10 @@
 					"value": "@dataset().Filename",
 					"type": "Expression"
 				},
+				"folderPath": {
+					"value": "@dataset().subdirectory",
+					"type": "Expression"
+				},
 				"container": "source"
 			},
 			"columnDelimiter": ",",
