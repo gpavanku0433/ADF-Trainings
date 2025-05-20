@@ -1,0 +1,33 @@
+{
+	"name": "DS_Lookup_Department",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DEPARTMENT_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEPARTMENT_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MANAGER_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LOCATION_ID",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "HRP",
+			"table": "departments"
+		}
+	}
+}
