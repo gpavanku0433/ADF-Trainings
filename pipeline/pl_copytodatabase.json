@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -79,6 +80,7 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -127,6 +129,14 @@
 				}
 			}
 		],
+		"variables": {
+			"Dummy": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Copy from Blob"
+		},
 		"annotations": []
 	}
 }

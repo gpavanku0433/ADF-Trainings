@@ -99,6 +99,9 @@
 				"type": "array"
 			}
 		},
+		"folder": {
+			"name": "Copy from Blob"
+		},
 		"annotations": []
 	}
 }
