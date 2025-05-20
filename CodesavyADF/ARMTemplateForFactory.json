@@ -134,6 +134,9 @@
 						"type": "array"
 					}
 				},
+				"folder": {
+					"name": "Copy from Blob"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -941,6 +944,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "Copy from Blob"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1071,6 +1077,9 @@
 					"fileexist": {
 						"type": "bool"
 					}
+				},
+				"folder": {
+					"name": "Copy from Blob"
 				},
 				"annotations": []
 			},
@@ -2357,10 +2366,131 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "Copy from Blob"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_SQLServer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_lookup')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_Lookup_Department",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Lookup_Department')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Lookup_Department')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQLServer",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DEPARTMENT_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DEPARTMENT_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MANAGER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LOCATION_ID",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "HRP",
+					"table": "departments"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQLServer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Tr_schedule')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_copytodatabase",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2025-05-20T16:06:00",
+						"timeZone": "India Standard Time",
+						"schedule": {
+							"minutes": [
+								40
+							],
+							"hours": [
+								21
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_copytodatabase')]"
 			]
 		}
 	]
