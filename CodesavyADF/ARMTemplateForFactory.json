@@ -29,6 +29,119 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Loop File Names",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.filenames",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy data from source to database",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_Copy_blob",
+											"type": "DatasetReference",
+											"parameters": {
+												"Filename": {
+													"value": "@item().name",
+													"type": "Expression"
+												},
+												"subdirectory": {
+													"value": "@pipeline().parameters.Subdirectory",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DS_Generic_Tables",
+											"type": "DatasetReference",
+											"parameters": {
+												"Schema": {
+													"value": "@concat('HRP')",
+													"type": "Expression"
+												},
+												"Tablename": {
+													"value": "@first(split(item().name,'.'))",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"Subdirectory": {
+						"type": "string"
+					},
+					"filenames": {
+						"type": "array"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Copy_blob')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Generic_Tables')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_Archivefiles_withtimestamp')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -581,6 +694,11 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"variables": {
+					"Dummy": {
+						"type": "String"
+					}
+				},
 				"folder": {
 					"name": "Copy from Blob"
 				},
@@ -679,6 +797,286 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_copy_source_destination')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Copy_Destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_copytodatabase')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Folder Names from source blob",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DS_Getmetadata_Source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "Loop",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get Folder Names from source blob",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get Folder Names from source blob').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Get Files from sourcefiles",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DS_Getmetdata_fileinfo",
+											"type": "DatasetReference",
+											"parameters": {
+												"Directoryname": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"childItems",
+											"exists"
+										],
+										"storeSettings": {
+											"type": "AzureBlobStorageReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "Copy data from source to destination",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "Get Files from sourcefiles",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pl_createtables",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Subdirectory": {
+												"value": "@item().name",
+												"type": "Expression"
+											},
+											"filenames": {
+												"value": "@activity('Get Files from sourcefiles').output.childItems",
+												"type": "Expression"
+											},
+											"fileexist": {
+												"value": "@activity('Get Files from sourcefiles').output.exists",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"Dummy": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Getmetadata_Source')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Getmetdata_fileinfo')]",
+				"[concat(variables('factoryId'), '/pipelines/pl_createtables')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_createtables')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Loop File Names",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.filenames",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Conditional check for files",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@pipeline().parameters.fileexist",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Copy data from source to database",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "AzureBlobStorageReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "AzureSqlSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false,
+														"tableOption": "autoCreate",
+														"disableMetricsCollection": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DS_Copy_blob",
+														"type": "DatasetReference",
+														"parameters": {
+															"Filename": {
+																"value": "@item().name",
+																"type": "Expression"
+															},
+															"subdirectory": {
+																"value": "@pipeline().parameters.Subdirectory",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DS_Generic_Tables",
+														"type": "DatasetReference",
+														"parameters": {
+															"Schema": {
+																"value": "@concat('HRP')",
+																"type": "Expression"
+															},
+															"Tablename": {
+																"value": "@first(split(item().name,'.'))",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"Subdirectory": {
+						"type": "string"
+					},
+					"filenames": {
+						"type": "array"
+					},
+					"fileexist": {
+						"type": "bool"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_Copy_blob')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Generic_Tables')]"
 			]
 		},
 		{
@@ -1121,6 +1519,129 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_Copy_blob')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blobstorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Filename": {
+						"type": "string"
+					},
+					"subdirectory": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().Filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().subdirectory",
+							"type": "Expression"
+						},
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "String"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EMAIL",
+						"type": "String"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "HIRE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "JOB_ID",
+						"type": "String"
+					},
+					{
+						"name": "SALARY",
+						"type": "String"
+					},
+					{
+						"name": "COMMISSION_PCT",
+						"type": "String"
+					},
+					{
+						"name": "MANAGER_ID",
+						"type": "String"
+					},
+					{
+						"name": "DEPARTMENT_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blobstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Generic_Tables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQLServer",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Schema": {
+						"type": "string"
+					},
+					"Tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().Schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().Tablename",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQLServer')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_Getmetadata_Source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1134,6 +1655,87 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "String"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EMAIL",
+						"type": "String"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "HIRE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "JOB_ID",
+						"type": "String"
+					},
+					{
+						"name": "SALARY",
+						"type": "String"
+					},
+					{
+						"name": "COMMISSION_PCT",
+						"type": "String"
+					},
+					{
+						"name": "MANAGER_ID",
+						"type": "String"
+					},
+					{
+						"name": "DEPARTMENT_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blobstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Getmetdata_fileinfo')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blobstorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Directoryname": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().Directoryname",
+							"type": "Expression"
+						},
 						"container": "source"
 					},
 					"columnDelimiter": ",",
@@ -1676,6 +2278,90 @@
 			"apiVersion": "2018-06-01",
 			"properties": {},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_script_wait')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Script1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 5
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Dummy",
+							"value": "Pavan"
+						}
+					},
+					{
+						"name": "Script1",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "LS_SQLServer",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "  Update [HRP].[departments]\r\n  set DEPARTMENT_NAME ='Payroll'\r\n  -- select * from [HRP].[departments]\r\nwhere DEPARTMENT_NAME='HRP Payroll'"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"Dummy": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQLServer')]"
+			]
 		}
 	]
 }
