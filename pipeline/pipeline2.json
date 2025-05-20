@@ -51,8 +51,17 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LS_SQLServer",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"scripts": [],
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "\r\n  Update [HRP].[departments]\r\n  set DEPARTMENT_NAME ='HRP Payroll'\r\n  where DEPARTMENT_NAME='Payroll'\r\n\r\nselect 1"
+						}
+					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
