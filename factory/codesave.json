@@ -1,0 +1,9 @@
+{
+	"name": "codesave",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "12c92313-1a6c-4488-9c89-b7b4367b215a",
+		"tenantId": "ff63f801-8ea0-494e-8668-bdaef7cf46a0"
+	}
+}
