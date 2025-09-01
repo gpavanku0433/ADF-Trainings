@@ -5,6 +5,14 @@
 			"referenceName": "LS_Sqlserver",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Tablename": {
+				"type": "string"
+			},
+			"schema": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
 		"schema": [
@@ -29,8 +37,11 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "HRP",
-			"table": "Employee"
+			"schema": "",
+			"table": {
+				"value": "@dataset().Tablename",
+				"type": "Expression"
+			}
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
