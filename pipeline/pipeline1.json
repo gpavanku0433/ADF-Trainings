@@ -58,6 +58,13 @@
 								"type": "Expression"
 							},
 							"type": "DateTime"
+						},
+						"Endtime": {
+							"value": {
+								"value": "@utcNow()",
+								"type": "Expression"
+							},
+							"type": "Datetime"
 						}
 					}
 				},
