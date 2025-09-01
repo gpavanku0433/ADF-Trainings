@@ -27,8 +27,56 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Capture starttime of the pipeline",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[controljob]",
+					"storedProcedureParameters": {
+						"jobname": {
+							"value": {
+								"value": "@pipeline().parameters.jobname",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Starttime": {
+							"value": {
+								"value": "@utcNow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_SQL",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
+		"parameters": {
+			"jobname": {
+				"type": "string",
+				"defaultValue": "Logging_Lookup"
+			},
+			"startdate": {
+				"type": "string"
+			},
+			"enddate": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
