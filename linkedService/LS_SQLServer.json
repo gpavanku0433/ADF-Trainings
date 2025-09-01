@@ -11,7 +11,7 @@
 			"authenticationType": "SystemAssignedManagedIdentity"
 		},
 		"connectVia": {
-			"referenceName": "AzureIR",
+			"referenceName": "AutoResolveIntegrationRuntime",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
