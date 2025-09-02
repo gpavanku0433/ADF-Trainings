@@ -53,6 +53,62 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter1').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Get Metadata2",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_Filter_Output",
+									"type": "DatasetReference",
+									"parameters": {
+										"Directory": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [
+									"childItems"
+								],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
