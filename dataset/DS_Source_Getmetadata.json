@@ -2,7 +2,7 @@
 	"name": "DS_Source_Getmetadata",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_Blobstorage",
+			"referenceName": "LS_Blob_Strg",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
