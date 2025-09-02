@@ -106,6 +106,39 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "Nested Loop",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Get Metadata2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline2",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Directory": {
+										"value": "@item().name",
+										"type": "Expression"
+									},
+									"Files": {
+										"value": "@activity('Get Metadata2').output.childItems",
+										"type": "Expression"
+									}
+								}
+							}
 						}
 					]
 				}
