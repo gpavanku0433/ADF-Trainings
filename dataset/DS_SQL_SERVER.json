@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "HRP",
-			"table": "Employee_Data"
+			"table": "Employee_Data_20250902"
 		}
 	}
 }
