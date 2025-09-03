@@ -1,0 +1,17 @@
+{
+	"name": "Tr_Scheduled",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 15,
+				"startTime": "2025-09-03T16:07:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
