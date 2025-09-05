@@ -1,0 +1,9 @@
+{
+	"name": "CODESAVEAMAR01",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9dd30f62-2806-4ac2-8884-b66e9d8413ec",
+		"tenantId": "9639d08b-ca8f-43c7-b2f6-961b423682d7"
+	}
+}
