@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "CODESAVEAMAR01"
+		},
+		"LS_AMAR_connectionString": {
+			"value": ""
+		},
+		"LS_Blobstorage_connectionString": {
+			"value": ""
+		},
+		"LS_SQLSERVER1_password": {
+			"value": ""
+		},
+		"LS_Sqlserver_password": {
+			"value": ""
+		},
+		"LS_Storage_connectionString": {
+			"value": ""
+		},
+		"LS_sqlserveramar_password": {
+			"value": ""
+		},
+		"KV_Blob_properties_typeProperties_baseUrl": {
+			"value": "https://KV-DEV-SQLADF.vault.azure.net/"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_server": {
+			"value": "DESKTOP-9HIPUEA\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_database": {
+			"value": "AMAR"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_userName": {
+			"value": "AMARPANDU2806"
+		},
+		"LS_Sqlserver_properties_typeProperties_server": {
+			"value": "trainingsqlservercodesavy.database.windows.net"
+		},
+		"LS_Sqlserver_properties_typeProperties_database": {
+			"value": "SQLADFTraining"
+		},
+		"LS_Sqlserver_properties_typeProperties_userName": {
+			"value": "gpavanku"
+		},
+		"LS_sqlserveramar_properties_typeProperties_server": {
+			"value": "sql-amar.database.windows.net"
+		},
+		"LS_sqlserveramar_properties_typeProperties_database": {
+			"value": "dbamar"
+		},
+		"LS_sqlserveramar_properties_typeProperties_userName": {
+			"value": "amar"
+		},
+		"Event_Trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/fbffe2ca-a6f0-43c3-b797-42e7f103b3c7/resourceGroups/ADFETL01/providers/Microsoft.Storage/storageAccounts/codesaveyblob"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

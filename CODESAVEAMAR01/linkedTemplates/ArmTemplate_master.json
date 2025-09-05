@@ -1,0 +1,201 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "CODESAVEAMAR01"
+		},
+		"LS_AMAR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_AMAR'"
+		},
+		"LS_Blobstorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Blobstorage'"
+		},
+		"LS_SQLSERVER1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER1'"
+		},
+		"LS_Sqlserver_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_Sqlserver'"
+		},
+		"LS_Storage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Storage'"
+		},
+		"LS_sqlserveramar_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_sqlserveramar'"
+		},
+		"KV_Blob_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://KV-DEV-SQLADF.vault.azure.net/"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-9HIPUEA\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AMAR"
+		},
+		"LS_SQLSERVER1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "AMARPANDU2806"
+		},
+		"LS_Sqlserver_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "trainingsqlservercodesavy.database.windows.net"
+		},
+		"LS_Sqlserver_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "SQLADFTraining"
+		},
+		"LS_Sqlserver_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gpavanku"
+		},
+		"LS_sqlserveramar_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-amar.database.windows.net"
+		},
+		"LS_sqlserveramar_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dbamar"
+		},
+		"LS_sqlserveramar_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "amar"
+		},
+		"Event_Trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/fbffe2ca-a6f0-43c3-b797-42e7f103b3c7/resourceGroups/ADFETL01/providers/Microsoft.Storage/storageAccounts/codesaveyblob"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "CODESAVEAMAR01_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_Blobstorage_connectionString": {
+						"value": "[parameters('LS_Blobstorage_connectionString')]"
+					},
+					"LS_AMAR_connectionString": {
+						"value": "[parameters('LS_AMAR_connectionString')]"
+					},
+					"LS_SQLSERVER1_password": {
+						"value": "[parameters('LS_SQLSERVER1_password')]"
+					},
+					"LS_Sqlserver_password": {
+						"value": "[parameters('LS_Sqlserver_password')]"
+					},
+					"LS_Storage_connectionString": {
+						"value": "[parameters('LS_Storage_connectionString')]"
+					},
+					"KV_Blob_properties_typeProperties_baseUrl": {
+						"value": "[parameters('KV_Blob_properties_typeProperties_baseUrl')]"
+					},
+					"LS_SQLSERVER1_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER1_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER1_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER1_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER1_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER1_properties_typeProperties_userName')]"
+					},
+					"LS_Sqlserver_properties_typeProperties_server": {
+						"value": "[parameters('LS_Sqlserver_properties_typeProperties_server')]"
+					},
+					"LS_Sqlserver_properties_typeProperties_database": {
+						"value": "[parameters('LS_Sqlserver_properties_typeProperties_database')]"
+					},
+					"LS_Sqlserver_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Sqlserver_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "CODESAVEAMAR01_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_sqlserveramar_password": {
+						"value": "[parameters('LS_sqlserveramar_password')]"
+					},
+					"LS_sqlserveramar_properties_typeProperties_server": {
+						"value": "[parameters('LS_sqlserveramar_properties_typeProperties_server')]"
+					},
+					"LS_sqlserveramar_properties_typeProperties_database": {
+						"value": "[parameters('LS_sqlserveramar_properties_typeProperties_database')]"
+					},
+					"LS_sqlserveramar_properties_typeProperties_userName": {
+						"value": "[parameters('LS_sqlserveramar_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'CODESAVEAMAR01_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "CODESAVEAMAR01_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Event_Trigger_properties_typeProperties_scope": {
+						"value": "[parameters('Event_Trigger_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'CODESAVEAMAR01_ArmTemplate_1')]"
+			]
+		}
+	]
+}
