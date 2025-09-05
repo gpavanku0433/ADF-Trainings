@@ -1,0 +1,17 @@
+{
+	"name": "Event_Trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/inputfolder/blobs/Employee_Data",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/fbffe2ca-a6f0-43c3-b797-42e7f103b3c7/resourceGroups/ADFETL01/providers/Microsoft.Storage/storageAccounts/codesaveyblob",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
