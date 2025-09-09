@@ -1,0 +1,28 @@
+{
+	"name": "DS_Archieve_Test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employee",
+				"container": "inputfolder"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "EMPLOYEE_ID\tFIRST_NAME\tLAST_NAME\tEMAIL\tPHONE_NUMBER\tHIRE_DATE\tJOB_ID\tSALARY\tCOMMISSION_PCT\tMANAGER_ID\tDEPARTMENT_ID",
+				"type": "String"
+			}
+		]
+	}
+}
