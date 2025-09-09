@@ -227,7 +227,7 @@
 				"typeProperties": {
 					"variableName": "Errormessage",
 					"value": {
-						"value": "@concat(activity('Processing the data')?.output?.Error.Message,activity('Archiving the data')?.output?.Error.Message)",
+						"value": "@concat(activity('Processing the data')?.Error?.Message,activity('Archiving the data')?.Error?.Message)",
 						"type": "Expression"
 					}
 				}
