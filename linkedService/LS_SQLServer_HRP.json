@@ -1,0 +1,21 @@
+{
+	"name": "LS_SQLServer_HRP",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "hrpdev.database.windows.net",
+			"database": "SQLADFTraining",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "gpavanku",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDgwMTg5Mzg1LUQzNDItNDZBQy1BMkFFLTY4NzcyRDYwNzdEOF83OTk0ZjZiZC0yZjJmLTQ1YjMtOWJkNy00NzM0MmY0ZWNlYzQiDQp9"
+		},
+		"connectVia": {
+			"referenceName": "AzureIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
