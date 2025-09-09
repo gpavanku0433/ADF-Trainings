@@ -39,7 +39,7 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "Processing the data",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -100,11 +100,11 @@
 				]
 			},
 			{
-				"name": "Copy data1_copy1",
+				"name": "Archiving the data",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Processing the data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -169,7 +169,7 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Copy data1_copy1",
+						"activity": "Archiving the data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -206,8 +206,81 @@
 					"referenceName": "LS_SQLServer_HRP",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Capture Error Message",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Logstatus Completed",
+						"dependencyConditions": [
+							"Failed",
+							"Skipped"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Errormessage",
+					"value": {
+						"value": "@concat(activity('Processing the data')?.output?.Error.Message,activity('Archiving the data')?.output?.Error.Message)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Logstatus Completed_copy1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Capture Error Message",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[usp_errorlog]",
+					"storedProcedureParameters": {
+						"error_message": {
+							"value": {
+								"value": "@variables('Errormessage')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"pipelinerunid": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_SQLServer_HRP",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
+		"variables": {
+			"Errormessage": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
