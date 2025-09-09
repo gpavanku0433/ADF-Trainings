@@ -1,0 +1,16 @@
+{
+	"name": "DS_Employee",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLServer_HRP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Employee_Data"
+		}
+	}
+}
