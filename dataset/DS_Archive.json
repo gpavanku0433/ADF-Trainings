@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"folderPath": "Archieve",
-				"container": "inputfolder"
+				"container": "input"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
