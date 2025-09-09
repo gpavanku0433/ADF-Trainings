@@ -233,7 +233,7 @@
 				}
 			},
 			{
-				"name": "Logstatus Completed_copy1",
+				"name": "Error Log",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
